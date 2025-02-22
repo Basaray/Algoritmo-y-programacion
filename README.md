@@ -12,4 +12,4 @@ Se utiliza un bucle for para recorrer los elementos del array
 
 4 . Salida esperada
 
-El programa finalmente imprime los elementos del array en el orden en que están almacenados en memoria
+Ahora el programa imprime los elementos del array en el orden en que están almacenados en memoria
