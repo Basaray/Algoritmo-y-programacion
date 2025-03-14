@@ -2,10 +2,10 @@
 
 int main() {
     int x = 10;
-    int *p = &x;  // p almacena la dirección de x
+    int *p = &x;  // p almacena la direcciÃ³n de x
 
     printf("Valor de x: %d\n", x);
-    printf("Dirección de x: %p\n", (void*)p);
+    printf("DirecciÃ³n de x: %p\n", (void*)p);
 
     return 0;
 }
