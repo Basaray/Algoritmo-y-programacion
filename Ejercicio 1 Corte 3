@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <string.h>
+
+typedef struct {
+    char nombre[50];
+    float nota;
+} Alumno;
+
+void guardarAlumnos(const char *filename) {
+    Alumno alumnos[3] = {
+        {"Carlos Santana", 8.5},
+        {"Pedro Sanchez", 9.6},
+        {"Abraham Perozo", 6.2}
+    };
+    
+    FILE *file = fopen(filename, "wb");
+    if (file == NULL) {
+        printf("Error al abrir el archivo para escritura.\n");
+        return;
+    }
+    
+    fwrite(alumnos, sizeof(Alumno), 3, file);
+    fclose(file);
+}
+
+void leerAlumnos(const char *filename) {
+    Alumno alumnos[3];
+    
+    FILE *file = fopen(filename, "rb");
+    if (file == NULL) {
+        printf("Error al abrir el archivo para lectura.\n");
+        return;
+    }
+    
+    fread(alumnos, sizeof(Alumno), 3, file);
+    fclose(file);
+    
+    printf("Datos de los alumnos:\n");
+    for (int i = 0; i < 3; i++) {
+        printf("Nombre: %s, Nota: %.2f\n", alumnos[i].nombre, alumnos[i].nota);
+    }
+}
+
+int main() {
+    const char *filename = "alumnos.bin";
+    guardarAlumnos(filename);
+    leerAlumnos(filename);
+    return 0;
+}
