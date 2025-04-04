@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+void copiarArchivo(const char *origen, const char *destino) {
+    FILE *fileOrigen = fopen(origen, "r");
+    if (fileOrigen == NULL) {
+        printf("Error: El archivo origen no existe.\n");
+        return;
+    }
+    
+    FILE *fileDestino = fopen(destino, "w");
+    if (fileDestino == NULL) {
+        printf("Error al crear el archivo destino.\n");
+        fclose(fileOrigen);
+        return;
+    }
+    
+    char c;
+    while ((c = fgetc(fileOrigen)) != EOF) {
+        fputc(c, fileDestino);
+    }
+    
+    fclose(fileOrigen);
+    fclose(fileDestino);
+    printf("Archivo copiado con exito.\n");
+}
+
+int main() {
+    copiarArchivo("origen.txt", "copia.txt");
+    return 0;
+}
