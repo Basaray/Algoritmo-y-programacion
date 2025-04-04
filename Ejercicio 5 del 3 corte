@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+typedef struct {
+    char nombre[50];
+    int edad;
+    float promedio;
+} Alumno;
+
+void guardarAlumnos(const char *filename) {
+    Alumno alumnos[3] = {
+        {"Pedro Picapierdra", 20, 8.2},
+        {"6 Martinez", 21, 6.6},
+        {"Dwayne Johnson", 19, 9.8}
+    };
+    
+    FILE *file = fopen(filename, "wb");
+    if (file == NULL) {
+        printf("Error al abrir el archivo para escritura.\n");
+        return;
+    }
+    
+    fwrite(alumnos, sizeof(Alumno), 3, file);
+    fclose(file);
+}
+
+void buscarAlumno(const char *filename, const char *nombreBuscar) {
+    FILE *file = fopen(filename, "rb");
+    if (file == NULL) {
+        printf("Error al abrir el archivo para lectura.\n");
+        return;
+    }
+    
+    Alumno alumno;
+    bool encontrado = false;
+    
+    while (fread(&alumno, sizeof(Alumno), 1, file) == 1) {
+        if (strcmp(alumno.nombre, nombreBuscar) == 0) {
+            printf("Alumno encontrado:\n");
+            printf("Nombre: %s\nEdad: %d\nPromedio: %.2f\n", 
+                   alumno.nombre, alumno.edad, alumno.promedio);
+            encontrado = true;
+            break;
+        }
+    }
+    
+    if (!encontrado) {
+        printf("No se encontro al alumno con nombre '%s'.\n", nombreBuscar);
+    }
+    
+    fclose(file);
+}
+
+int main() {
+    const char *filename = "alumnos.dat";
+    guardarAlumnos(filename);
+    
+    char nombreBuscar[50];
+    printf("Ingrese el nombre del alumno a buscar: ");
+    fgets(nombreBuscar, 50, stdin);
+    nombreBuscar[strcspn(nombreBuscar, "\n")] = '\0'; // Eliminar el salto de línea
+    
+    buscarAlumno(filename, nombreBuscar);
+    
+    return 0;
+}
